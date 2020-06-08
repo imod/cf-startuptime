@@ -1,0 +1,19 @@
+---
+# deploy app to CloudFoundry
+applications:
+- name: cf-domi
+  memory: 2G
+  instances: 1
+  path: ./target/cf-startuptime-0.0.1-SNAPSHOT.jar
+  buildpacks:
+    - https://github.com/cloudfoundry/java-buildpack#v4.30
+  #services:
+  #  - mysql
+  #  - rabbit
+  env:
+    # XX:MaxDirectMemorySize is set because of elasticsearch http REST client causing issues
+    JAVA_OPTS: -XX:MaxDirectMemorySize=50M -Djava.security.egd=file:///dev/urandom
+    JBP_CONFIG_OPEN_JDK_JRE: '{jre: { version: 11.+ }}'
+    JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
+
+
